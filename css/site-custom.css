@@ -1,0 +1,24 @@
+body {
+  padding-top: 1rem;
+  text-align: left;
+}
+
+.box-main {
+  padding-top: 3rem;
+}
+
+#navMain ul.navbar-nav li.nav-item{
+  padding-right: 1.75rem !important;
+ }
+
+.nav-link.active {
+   #border-bottom: 2px solid #FFFFFF;
+}
+ 
+.nav-link .fa {
+   margin-right: 4px;
+}
+
+.dropdown-menu .dropdown-item .fa {
+   margin-right: 4px;
+}
