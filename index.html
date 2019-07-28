@@ -1,106 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Home</title>
+	<title>Home</title>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="./css/site-custom.css">
-  <link rel="stylesheet" href="./css/pages/index.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="./css/site-custom.css">
+	<link rel="stylesheet" href="./css/pages/index.css">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand pr-5" href="#">ESDC-SA-AppDev</a>
+	<a class="navbar-brand pr-5" href="#">ESDC-SA-AppDev</a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 
-  <div class="collapse navbar-collapse" id="navMain">
-    <ul class="navbar-nav mr-auto">
-	  <li class="nav-item">
-		<a class="nav-link active" href="#">
-		  <span class="fa fa-dashboard"></span>
-		  Dashboard <span class="sr-only">(current)</span>
-		</a>
-	  </li>
-	  <li class="nav-item dropdown">
-		<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		  <span class="fa fa-file-text-o"></span>
-		  Reports
-		</a>
-        <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href="#">
-		  	<span class="fa fa-tasks"></span>
-            Work Completed
-          </a>
-          <a class="dropdown-item" href="#">
-			<span class="fa fa-bar-chart"></span>
-            Throughput
-          </a>
-        </div>
-	  </li>
-	</ul>
-  </div>
+	<div class="collapse navbar-collapse" id="navMain">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link active" href="#">
+					<span class="fa fa-dashboard"></span>
+					Dashboard <span class="sr-only">(current)</span>
+				</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fa fa-file-text-o"></span>
+					Reports
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdown01">
+					<a class="dropdown-item" href="#">
+						<span class="fa fa-tasks"></span>
+						Work Completed
+					</a>
+					<a class="dropdown-item" href="#">
+						<span class="fa fa-bar-chart"></span>
+						Throughput
+					</a>
+				</div>
+			</li>
+		</ul>
+	</div>
 </nav>
 
 <main role="main" class="container-fluid">
-  <div class="box-main">
+<div class="box-main">
 	<div class="container-fluid">
-	  <div class="row">
-		<div class="col-8">
-    	  <h1>Kanban Board Summary - Client Cards</h1>
-    	  <div id="echart"></div>
+		<div class="row">
+			<div class="col-11">
+				<h1>Kanban Board Summary - Client Cards</h1>
+				<ul class="nav nav-tabs" id="cpTabMain" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="tabChart" data-toggle="tab" href="#tbcChart" role="tab" aria-controls="chart" aria-selected="true">
+							Chart
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="tabData" data-toggle="tab" href="#tbcData" role="tab" aria-controls="data" aria-selected="false">
+							Data
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content" id="cpTabMainContent">
+					<div class="tab-pane fade show active" id="tbcChart" role="tabpanel" aria-labelledby="tabChart">
+						<div id="cpChart"></div>
+					</div>
+					<div class="tab-pane fade" id="tbcData" role="tabpanel" aria-labelledby="tabData">
+						<div id="boxDataTable" class="table-responsive">
+							<table id="cpDataTable" class="table table-striped table-vcenter table-hover display">
+								<thead>
+									<th>
+										Task
+									</th>
+									<th>
+										Client
+									</th>
+									<th>
+										Status
+									</th>
+									<th>
+										Date Started
+									</th>
+									<th>
+										Date Completed
+									</th>
+									<th>
+										Assigned To
+									</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="6"></td>
+									</tr>
+								</tbody>				
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-1 text-right">
+				<button type="button" id="btnRefresh" class="btn btn-primary">Refresh</button>
+			</div>
 		</div>
-		<div class="col-4 text-right">
-		  <button type="button" id="btnRefresh" class="btn btn-primary">Refresh</button>
-		</div>
-	  </div>
 	</div>
-  </div>
+</div>
 </main>
 
 <!-- scripts - base and vendor -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 <!-- scripts - page specific -->
-<script src="./vendor/echarts/echarts.min.js"></script>
+<script src="./vendor/echarts/echarts.common.min.js"></script>
 <script src="./js/pages/index.js"></script>
 
 <script>
 	$(function(){
 		ReadyPageIndex.init();
-
-		function processData2(){
-			var eChart = echarts.init(document.getElementById('echart'));
-
-			eChart.setOption({
-				dataset: {
-					source: [
-						[' ','Backlog','Committed','In Progress','Blocked / On Hold','Done'],	
-						['OAS-SIS Pensions','0','1','2','0','3'],
-						['BDM','0','0','3','1','5'],
-						['CPP-D','0','0','1','0','0'],
-						['Enterprise','0','0','1','0','1'],
-						['SSA','0','0','0','0','1'],
-						['StatsCan','0','0','0','0','1'],
-						['NOC','0','0','0','0','1'],
-						['CCOE','0','0','0','0','1'],
-						['DTS','0','0','0','0','3'],
-						['TBS','1','0','0','0','0']
-					]
-				}
-			});
-		}
 	});
 </script>
-
 
 </body>
 </html>

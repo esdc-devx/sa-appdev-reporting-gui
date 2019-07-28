@@ -6,7 +6,7 @@ var ReadyPageIndex = function() {
 			// --- eChart -----------------------------------------------------
 
 			// based on prepared DOM, initialize echarts instance
-			var eChart = echarts.init(document.getElementById('echart'));
+			var eChart = echarts.init(document.getElementById('cpChart'));
 
 			var loadingOptions = {
 				color: '#666666', 
@@ -53,8 +53,8 @@ var ReadyPageIndex = function() {
 				},
 				xAxis:  {
 					type: 'value',
-					name: 'Nbr of Cards',
-					nameLocation : 'center',
+					name: 'Number of Cards',
+					nameLocation : 'middle',
 					nameGap: 25
 				},
 				yAxis: {
@@ -139,6 +139,7 @@ var ReadyPageIndex = function() {
 
 			getReportData();
 
+			$("#cpDataTable").hide();
 
 			$("#btnRefresh").click(function(){
 				eChart.showLoading(loadingOptions);
@@ -181,15 +182,54 @@ function getReportData(){
 }
 
 function processReportData(data){
-	var eChart = echarts.init(document.getElementById('echart'));
+	var eChart = echarts.init(document.getElementById('cpChart'));
 
-	eChartZeroToNull(data);
+	eChartZeroToNull(data.compiledResults);
 
 	eChart.hideLoading();
 
 	eChart.setOption({
 		dataset: {
-			source: data
+			source: data.compiledResults
 		}
 	});
+
+	$('#cpDataTable').DataTable(
+		{
+			data: data.reportItemResults,
+			autoWidth: false,
+			pageLength: 10,
+			lengthMenu: [[5, 10, 20], [5, 10, 20]],
+			columns: [
+				{ 
+					data: "taskName",
+					render: function(data, type, row, meta){
+						if (type === 'display'){
+							data = '<a href="' + row.url + '" target="_blank">' + data + '</a>';
+						}
+						
+						return data;
+					 }
+				},
+				{ 
+					data: "clientName" 
+				},
+				{ 
+					data: "statusTitle" 
+				}, 
+				{ 
+					data: "dateStarted" 
+				}, 
+				{ 
+					data: "dateCompleted" 
+				}, 
+				{ 
+					data: "assignedTo" 
+				}
+			],
+			order: [[1, 'asc'],[2, 'asc'],[0, 'asc']]
+		}
+	);
+
+	$("#cpDataTable").show();
 }
