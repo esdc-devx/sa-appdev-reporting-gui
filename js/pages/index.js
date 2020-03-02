@@ -134,6 +134,12 @@ var ReadyPageIndex = function() {
 				}
 			});
 
+			$("#btnExportExcel").click(function () {
+				var table = $('#cpDataTable').DataTable();
+
+				table.buttons(0, 0).trigger();
+			});
+
 			$("#btnRefresh").click(function(){
 				getReportData();
 			});
@@ -240,12 +246,6 @@ function processReportData(data){
 			}
 		);
 	}
-
-	$("#btnExportExcel").click(function () {
-		var table = $('#cpDataTable').DataTable();
-
-		table.buttons(0, 0).trigger();
-	});
 
 	table.buttons().container().hide();
 
