@@ -4,16 +4,9 @@ var ReadyPageIndex = function() {
         init: function() {
 
 			// --- eChart -----------------------------------------------------
-
+			
 			// based on prepared DOM, initialize echarts instance
 			var eChart = echarts.init(document.getElementById('cpChart'));
-
-			var loadingOptions = {
-				color: '#666666', 
-				text: 'loading...'
-			}
-
-			eChart.showLoading(loadingOptions);
 
 			// specify chart configuration item and data
 			var eChartOption = {
@@ -130,24 +123,20 @@ var ReadyPageIndex = function() {
 			};
 
 			eChart.setOption(eChartOption);
-			
-			$(window).on('resize', function(){
-				if(eChart != null && eChart != undefined){
+
+			// ----------------------------------------------------------------
+		
+			getReportData();
+
+			$(window).on('resize', function () {
+				if (eChart != null && eChart != undefined) {
 					eChart.resize();
 				}
 			});
 
-			getReportData();
-
-			$("#cpDataTable").hide();
-
 			$("#btnRefresh").click(function(){
-				eChart.showLoading(loadingOptions);
-
 				getReportData();
 			});
-
-			// ----------------------------------------------------------------
         }
     };
 }();
@@ -167,6 +156,20 @@ function eChartZeroToNull(arr){
 }
 
 function getReportData(){
+	var eChart = echarts.init(document.getElementById('cpChart'));
+
+	var loadingOptions = {
+		color: '#666666',
+		text: 'loading...'
+	}
+
+	$("#btnExportExcel").attr("disabled", true);
+	$("#btnRefresh").attr("disabled", true);
+
+	eChart.showLoading(loadingOptions);
+
+	$("#cpDataTable").hide();
+
 	var url = 'https://esdc-sa-appdev-reporting-func.azurewebsites.net/api/getSummaryReportResults?code=mGYkdKOuxTCPlaQia2LJBiclxohTGQ/09cH/ulwmKPk/f9vzJA/XMg==';
 
 	$.ajax({
@@ -183,7 +186,7 @@ function getReportData(){
 
 function processReportData(data){
 	var eChart = echarts.init(document.getElementById('cpChart'));
-
+	
 	eChartZeroToNull(data.compiledResults);
 
 	eChart.hideLoading();
@@ -194,42 +197,60 @@ function processReportData(data){
 		}
 	});
 
-	$('#cpDataTable').DataTable(
-		{
-			data: data.reportItemResults,
-			autoWidth: false,
-			pageLength: 10,
-			lengthMenu: [[5, 10, 20], [5, 10, 20]],
-			columns: [
-				{ 
-					data: "taskName",
-					render: function(data, type, row, meta){
-						if (type === 'display'){
-							data = '<a href="' + row.url + '" target="_blank">' + data + '</a>';
+	if ($.fn.dataTable.isDataTable('#cpDataTable')) {
+		var table = $('#cpDataTable').DataTable();
+	}
+	else {
+		var table = $('#cpDataTable').DataTable(
+			{
+				data: data.reportItemResults,
+				autoWidth: false,
+				pageLength: 10,
+				lengthMenu: [[5, 10, 20], [5, 10, 20]],
+				columns: [
+					{
+						data: "taskName",
+						render: function (data, type, row, meta) {
+							if (type === 'display') {
+								data = '<a href="' + row.url + '" target="_blank">' + data + '</a>';
+							}
+
+							return data;
 						}
-						
-						return data;
-					 }
-				},
-				{ 
-					data: "clientName" 
-				},
-				{ 
-					data: "statusTitle" 
-				}, 
-				{ 
-					data: "dateStarted" 
-				}, 
-				{ 
-					data: "dateCompleted" 
-				}, 
-				{ 
-					data: "assignedTo" 
-				}
-			],
-			order: [[1, 'asc'],[2, 'asc'],[0, 'asc']]
-		}
-	);
+					},
+					{
+						data: "clientName"
+					},
+					{
+						data: "statusTitle"
+					},
+					{
+						data: "dateStarted"
+					},
+					{
+						data: "dateCompleted"
+					},
+					{
+						data: "assignedTo"
+					}
+				],
+				order: [[1, 'asc'], [2, 'asc'], [0, 'asc']],
+				dom: 'Bfrtip',
+				buttons: [{ extend: 'excelHtml5', text: 'Export to Excel' }]
+			}
+		);
+	}
+
+	$("#btnExportExcel").click(function () {
+		var table = $('#cpDataTable').DataTable();
+
+		table.buttons(0, 0).trigger();
+	});
+
+	table.buttons().container().hide();
 
 	$("#cpDataTable").show();
+
+	$("#btnExportExcel").attr("disabled", false);
+	$("#btnRefresh").attr("disabled", false);
 }

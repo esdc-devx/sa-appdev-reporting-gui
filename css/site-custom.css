@@ -4,7 +4,7 @@ body {
 }
 
 .box-main {
-  padding-top: 3rem;
+  padding-top: 4.5rem;
 }
 
 #navMain ul.navbar-nav li.nav-item{
@@ -21,4 +21,11 @@ body {
 
 .dropdown-menu .dropdown-item .fa {
    margin-right: 4px;
+}
+
+img.logo {
+   height: 40px;
+   border: 0px none #FFFFFF;
+   padding: 0px;
+   margin: 0px;
 }
