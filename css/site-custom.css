@@ -12,7 +12,7 @@ body {
  }
 
 .nav-link.active {
-   #border-bottom: 2px solid #FFFFFF;
+   border-bottom: 2px solid #FFFFFF;
 }
  
 .nav-link .fa {
