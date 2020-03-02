@@ -169,6 +169,10 @@ function getReportData(){
 		text: 'loading...'
 	}
 
+	// Set graph size
+	$("#cpChart").height(600);
+	eChart.resize();
+
 	$("#btnExportExcel").attr("disabled", true);
 	$("#btnRefresh").attr("disabled", true);
 
@@ -202,7 +206,7 @@ function processReportData(data){
 			source: data.compiledResults
 		}
 	});
-
+	
 	if ($.fn.dataTable.isDataTable('#cpDataTable')) {
 		var table = $('#cpDataTable').DataTable();
 	}
@@ -250,6 +254,10 @@ function processReportData(data){
 	table.buttons().container().hide();
 
 	$("#cpDataTable").show();
+
+	// Set graph size
+	$("#cpChart").height(data.compiledResults.length * 35);
+	eChart.resize();
 
 	$("#btnExportExcel").attr("disabled", false);
 	$("#btnRefresh").attr("disabled", false);
